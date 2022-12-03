@@ -29,18 +29,14 @@ const handleErrors = (e: Error) => {
   }
 }
 
+const returnFile = (path: string) => readFileSync(path, 'utf-8').replace(/\r/g, '').trim()
+
 export const getAOCData = async (day: number) => {
-  //https://adventofcode.com/2022/day/3/input
   const API_URL = `https://adventofcode.com/2022/day/${day}/input`
   const path = `day${day}.txt`
   if (existsSync(path) && statSync(path)) {
     console.log(`${path} already exists!`)
-    const array = readFileSync(path, 'utf-8')
-    .replace(/\r/g, '')
-    .trim()
-    return array;
-  } else {
-
+    return returnFile(path);
   }
   try {
     const res = await fetch(`${API_URL}`, {
@@ -48,17 +44,13 @@ export const getAOCData = async (day: number) => {
         cookie: `session=${sessionKey}`
       }
     })
-
     if (res.status !== 200) {
       throw new Error(String(res.status))
     }
     const text = await res.text();
     writeFileSync(`${path}`, text.replace(/\n$/, ''))
     console.log(`Input for ${path} saved`)
-    const array = readFileSync(path, 'utf-8')
-      .replace(/\r/g, '')
-      .trim()
-    return array;
+    return returnFile(path);
   } catch (error) {
     handleErrors(error);
   }
