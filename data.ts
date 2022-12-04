@@ -51,7 +51,7 @@ export const getAOCData = async (day: number) => {
     writeFileSync(`${path}`, text.replace(/\n$/, ''))
     console.log(`Input for ${path} saved`)
     return returnFile(path);
-  } catch (error) {
+  } catch (error: Error | any) {
     handleErrors(error);
   }
 };
