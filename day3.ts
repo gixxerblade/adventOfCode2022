@@ -35,8 +35,9 @@ const main = async () => {
   const day1 = readFileSync('day3.txt', 'utf-8')
     .split('\n')
     .map((line) => {
-      const firstHalf = line.slice(0, line.length / 2).split('')
-      const secondHalf = line.slice(line.length / 2).split('')
+      const half = Math.ceil(line.length / 2);
+      const firstHalf = line.slice(0, half).split('')
+      const secondHalf = line.slice(half).split('')
       return [...new Set(firstHalf.filter((common) => secondHalf.includes(common)))].join('')
     })
     .map((letter) => mapLetterToCharCode(letter))
