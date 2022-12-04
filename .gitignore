@@ -5,3 +5,4 @@ logs
 .env.test.local
 .env.production.local
 .env.local
+.log
