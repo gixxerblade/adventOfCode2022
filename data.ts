@@ -34,11 +34,11 @@ const returnFile = (path: string) => readFileSync(path, 'utf-8').replace(/\r/g, 
 export const getAOCData = async (day: number) => {
   const API_URL = `https://adventofcode.com/2022/day/${day}/input`
   const path = `day${day}.txt`
-  if (existsSync(path) && statSync(path)) {
-    console.log(`${path} already exists!`)
-    return returnFile(path);
-  }
   try {
+    if (existsSync(path) && statSync(path)) {
+      console.log(`${path} already exists!`)
+      return returnFile(path);
+    }
     const res = await fetch(`${API_URL}`, {
       headers: {
         cookie: `session=${sessionKey}`
