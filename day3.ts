@@ -1,5 +1,4 @@
 import { readFileSync } from 'fs'
-import { getAOCData } from './data'
 
 const mapLetterToCharCode = (letter: string) => {
   if (letter === letter.toUpperCase()) {
@@ -31,7 +30,6 @@ const findAllCommon = (array: string[]) => {
 }
 
 const main = async () => {
-  const data = await getAOCData(3)
   const day1 = readFileSync('day3.txt', 'utf-8')
     .split('\n')
     .map((line) => {

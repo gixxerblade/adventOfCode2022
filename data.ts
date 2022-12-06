@@ -1,4 +1,4 @@
-import { existsSync, readFileSync, statSync, writeFileSync } from 'fs';
+import { copyFileSync, existsSync, PathLike, readFileSync, statSync, writeFileSync } from 'fs';
 import fetch from 'node-fetch';
 import dotenv from 'dotenv';
 import kleur from "kleur"
@@ -29,15 +29,22 @@ const handleErrors = (e: Error) => {
   }
 }
 
-const returnFile = (path: string) => readFileSync(path, 'utf-8').replace(/\r/g, '').trim()
+const itExists = (pathLike: PathLike) => existsSync(pathLike) && statSync(pathLike);
 
-export const getAOCData = async (day: number) => {
+export const getAOCData = async () => {
+  const dayInput: string = process.argv[2]
+  if (!Number(dayInput)) {
+    console.log(kleur.red(`${dayInput} is not a number!!`));
+    process.exit();
+  }
+  const day = Number(dayInput);
   const API_URL = `https://adventofcode.com/2022/day/${day}/input`
   const path = `day${day}.txt`
+  const file = `day${6}.ts`
   try {
-    if (existsSync(path) && statSync(path)) {
-      console.log(`${path} already exists!`)
-      return returnFile(path);
+    if (itExists(path) && itExists(file)) {
+      console.log(kleur.green(`${path} & ${file} already exists!`))
+      process.exit();
     }
     const res = await fetch(`${API_URL}`, {
       headers: {
@@ -49,9 +56,13 @@ export const getAOCData = async (day: number) => {
     }
     const text = await res.text();
     writeFileSync(`${path}`, text.replace(/\n$/, ''))
-    console.log(`Input for ${path} saved`)
-    return returnFile(path);
+    console.log(kleur.green(`Input for ${path} saved`))
+    copyFileSync('template.ts', `${file}`)
+    console.log(kleur.green(`File for ${file} saved`))
+    process.exit();
   } catch (error: Error | any) {
     handleErrors(error);
   }
 };
+
+getAOCData();

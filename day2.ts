@@ -1,5 +1,4 @@
 import { readFileSync } from 'fs';
-import { getAOCData } from './data';
 // Rock defeats Scissors, Scissors defeats Paper, and Paper defeats Rock.
 // A for Rock, B for Paper, and C for Scissors.
 // response: X for Rock, Y for Paper, and Z for Scissors
