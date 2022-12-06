@@ -33,14 +33,14 @@ const itExists = (pathLike: PathLike) => existsSync(pathLike) && statSync(pathLi
 
 export const getAOCData = async () => {
   const dayInput: string = process.argv[2]
-  if (!Number(dayInput)) {
+  if (!Number(dayInput) || !dayInput) {
     console.log(kleur.red(`${dayInput} is not a number!!`));
     process.exit();
   }
   const day = Number(dayInput);
   const API_URL = `https://adventofcode.com/2022/day/${day}/input`
   const path = `day${day}.txt`
-  const file = `day${6}.ts`
+  const file = `day${day}.ts`
   try {
     if (itExists(path) && itExists(file)) {
       console.log(kleur.green(`${path} & ${file} already exists!`))
