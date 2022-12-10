@@ -15,17 +15,12 @@ const input = readFileSync('day10.txt', 'utf-8')
 type NumObj = Record<number, number>;
 
 const firstPart = () => {
-  // create lookup for interesting cycle times
-  const interestingCycles = [20, 60, 100, 140, 180, 220].reduce((acc: NumObj, curr) => {
-    acc[curr] = curr;
-    return acc;
-  }, {});
   let cycle = 0;
   let addx = 1;
   let signalStrength = 0;
   input.forEach((register) => {
     const getInterestingSignal = () => {
-      if (cycle in interestingCycles) {
+      if (cycle % 40 === 20) {
         signalStrength += addx * cycle;
       }
     }
@@ -53,9 +48,9 @@ const secondPart = () => {
   const display = new Array(6).fill('').map(() => new Array(40).fill(''));
   input.forEach((line) => {
     const drawPixel = () => {
-      let pixel = ".";
+      let pixel = " ";
       if (pixelPosition === addx || pixelPosition === addx + 1 || pixelPosition === addx - 1) {
-        pixel = "#";
+        pixel = "█";
       }
       display[currentRow][pixelPosition] = pixel;
       pixelPosition++;
@@ -75,4 +70,4 @@ const secondPart = () => {
   return display.map((row) => row.join(''))
 }
 
-console.log('PART 2 ANSWER', secondPart());
+console.log('PART 2 ANSWER', '\n', secondPart());
