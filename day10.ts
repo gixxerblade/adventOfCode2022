@@ -63,7 +63,7 @@ const secondPart = () => {
     if (line === 'noop') {
       drawPixel()
     } else {
-      ['addx V takes', 'two cycles'].forEach((_cycle) => drawPixel())
+      ['addx takes', 'two cycles'].forEach((_cycle) => drawPixel())
       addx += parseInt(line)
     }
   })
