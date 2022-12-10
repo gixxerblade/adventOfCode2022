@@ -21,39 +21,31 @@ const firstPart = () => {
     return acc;
   }, {});
   let cycle = 0;
-  // we start at 1
   let addx = 1;
   let signalStrength = 0;
   input.forEach((register) => {
-    if (register === 'noop') {
-      cycle++
+    const getInterestingSignal = () => {
       if (cycle in interestingCycles) {
         signalStrength += addx * cycle;
       }
+    }
+    if (register === 'noop') {
+      cycle++
+      getInterestingSignal()
     } else {
-      // addx # is adding two cycles
-      cycle++
-      if (cycle in interestingCycles) {
-        signalStrength += addx * cycle
-      }
-      cycle++
-      if (cycle in interestingCycles) {
-        signalStrength += addx * cycle
-      }
+      // addx V takes two cycles
+      ['addx V takes', 'two cycles'].forEach((_cycle) => {
+        cycle++
+        getInterestingSignal()
+      })
       addx += parseInt(register)
     }
   })
   return signalStrength
 }
 
-type DrawPixel = {
-  addx: number,
-  currentRow: number,
-  display: string[][]
-  pixelPosition: number,
-}
+console.log('PART 1 ANSWER: ', firstPart());
 
-console.log('PART 1 ANSWER: ', firstPart())
 const secondPart = () => {
   let addx = 1;
   let pixelPosition = 0;
@@ -76,9 +68,7 @@ const secondPart = () => {
     if (line === 'noop') {
       drawPixel()
     } else {
-      for (let i = 0; i < 2; i++) {
-        drawPixel()
-      }
+      ['addx V takes', 'two cycles'].forEach((_cycle) => drawPixel())
       addx += parseInt(line)
     }
   })
